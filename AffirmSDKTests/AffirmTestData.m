@@ -27,12 +27,12 @@
     return [AffirmCheckout checkoutWithItems:@[[self item]] shipping:[self shippingDetails] taxAmount:[NSDecimalNumber decimalNumberWithString:@"1.00"] shippingAmount:[NSDecimalNumber decimalNumberWithString:@"5.00"]];
 }
 
-+ (AffirmConfiguration *)configuration {
-    return [AffirmConfiguration configurationWithPublicAPIKey:@"public_api_key" environment:AffirmEnvironmentSandbox];
++ (AffirmCheckout *)checkoutWithAmount {
+    return [AffirmCheckout checkoutWithItems:@[[self item]] shipping:[self shippingDetails] totalAmount:[NSDecimalNumber decimalNumberWithString:@"5000"]];
 }
 
-+ (AffirmPricing *)pricing {
-    return [AffirmPricing pricingWithPayment:[NSDecimalNumber decimalNumberWithString:@"10.00"] paymentString:@"payment_string" termLength:[NSDecimalNumber decimalNumberWithString:@"12"] disclosure:@"my disclosure"];
++ (AffirmConfiguration *)configuration {
+    return [AffirmConfiguration configurationWithPublicAPIKey:@"public_api_key" environment:AffirmEnvironmentSandbox];
 }
 
 @end

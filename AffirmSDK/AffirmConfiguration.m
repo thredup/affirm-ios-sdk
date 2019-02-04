@@ -123,6 +123,10 @@ static AffirmConfiguration *sharedInstance = nil;
     return [NSURL URLWithString:path relativeToURL:urlComponents.URL];
 }
 
+- (NSString *)affirmPrequalURL {
+    return [[self affirmURLWithString:@"/apps/prequal/"] absoluteString];
+}
+
 - (NSURL *)affirmCheckoutURL {
     return [self affirmURLWithString:@"/api/v2/checkout/"];
 }
@@ -140,17 +144,13 @@ static AffirmConfiguration *sharedInstance = nil;
     return [sdkBundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
-- (NSURL *)affirmAsLowAsURLWithAPR:(NSDecimalNumber *)apr
-                        termLength:(NSDecimalNumber *)termLength
-                            amount:(NSDecimalNumber *)amount {
-    NSString *baseURL = [NSString stringWithFormat:@"/promos/payment_estimate_path/%@/%@/%@/%@",
-                         self.publicAPIKey, apr, [AffirmNumberUtils decimalDollarsToIntegerCents:amount], termLength];
-    return [self affirmURLWithString:baseURL];
-}
-
-- (NSURL *)affirmAsLowAsURLWithPromoId:(NSString *)promoId {
-    NSString *baseURL = [NSString stringWithFormat:@"/platform/public/promos/promo_set/%@/%@.json",
-                         self.publicAPIKey, promoId];
+- (NSURL *)affirmAsLowAsURLWithPromoId:(NSString *)promoId withAmount:(NSDecimalNumber *)amount {
+    NSString *baseURL = [NSString stringWithFormat:@"/api/promos/v2/%@?promo_external_id=%@&is_sdk=true&field=ala", self.publicAPIKey, promoId];
+    
+    if (amount) {
+        baseURL = [NSString stringWithFormat:[baseURL stringByAppendingString:@"&amount=%@"], amount];
+    }
+    
     return [self affirmAsLowAsURLWithString:baseURL];
 }
 

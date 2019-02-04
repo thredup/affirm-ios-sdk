@@ -1,9 +1,9 @@
 Pod::Spec.new do |spec|
     spec.name                   = "AffirmSDK"
     spec.authors                = "Affirm, Inc."
-    spec.version                = "4.0.10"
     spec.summary                = "Affirm iOS SDK - Tup Fork"
     spec.homepage               = "https://github.com/thredup/affirm-ios-sdk.git"
+    spec.version                = "4.0.14"
     spec.license                = { :type => "BSD-3-Clause", :file => "LICENSE.txt" }
     spec.source                 = { :git => "https://github.com/thredup/affirm-ios-sdk.git", :tag => spec.version }
     spec.source_files           = "AffirmSDK/*.{h,m}"

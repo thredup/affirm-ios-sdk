@@ -121,40 +121,45 @@
     XCTAssertEqualObjects([[AffirmTestData checkout] toJSONDictionary], rendered);
 }
 
-@end
-
-@interface AffirmLoanTermTests : XCTestCase
-@end
-
-
-@implementation AffirmLoanTermTests
-
-- (void)testLowestLoanTerm {
+- (void)testToJSONDictionaryWithAmount {
     NSDictionary *rendered = @{
-                               @"apr": @0.1,
-                               @"minimumLoanAmount": @5000,
-                               @"termLength": @6
+                               @"items": @{
+                                       @"test_item": @{
+                                               @"display_name": @"Affirm Test Item",
+                                               @"sku": @"test_item",
+                                               @"unit_price": @1500,
+                                               @"qty": @1,
+                                               @"item_url": @"http://sandbox.affirm.com/item",
+                                               }
+                                       },
+                               @"billing": @{
+                                       @"name": @{@"full": @"Test Tester"},
+                                       @"address":
+                                           @{
+                                               @"line1": @"325 Pacific Ave.",
+                                               @"line2": @"",
+                                               @"city": @"San Francisco",
+                                               @"state": @"CA",
+                                               @"zipcode": @"94111",
+                                               @"country": @"USA"
+                                               }
+                                       },
+                               @"shipping": @{
+                                       @"name": @{@"full": @"Test Tester"},
+                                       @"address":
+                                           @{
+                                               @"line1": @"325 Pacific Ave.",
+                                               @"line2": @"",
+                                               @"city": @"San Francisco",
+                                               @"state": @"CA",
+                                               @"zipcode": @"94111",
+                                               @"country": @"USA"
+                                               }
+                                       },
+                               @"total": @5000,
+                               @"api_version": @"v2"
                                };
-    AffirmLoanTerm *loanTerm = [AffirmLoanTerm loanTermWithDictionary:rendered pricingTemplate:@"As low as {payment}/month with {affirm_logo}" defaultMessage:@"Buy in monthly payments with {affirm_logo} on orders over $50"];
-    XCTAssertEqual(loanTerm.apr.doubleValue, 0.1);
-    XCTAssertEqual(loanTerm.minimumLoanAmount.integerValue, 50);
-    XCTAssertEqual(loanTerm.termLength.integerValue, 6);
-}
-
-@end
-
-@interface AffirmPricingTests : XCTestCase
-@end
-
-@implementation AffirmPricingTests
-- (void) testToJSONDictionary {
-    NSDictionary *rendered = @{
-                               @"payment": @10.00,
-                               @"paymentString": @"payment_string",
-                               @"termLength": @12,
-                               @"disclosure": @"my disclosure"
-                               };
-    XCTAssertEqualObjects([[AffirmTestData pricing] toJSONDictionary], rendered);
+    XCTAssertEqualObjects([[AffirmTestData checkoutWithAmount] toJSONDictionary], rendered);
 }
 
 @end

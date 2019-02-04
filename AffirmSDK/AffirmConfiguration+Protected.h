@@ -17,13 +17,16 @@ static NSString *AFFIRM_CHECKOUT_CANCELLATION_URL = @"affirm://checkout/cancelle
 static NSString *AFFIRM_PRODUCTION_DOMAIN = @"api.affirm.com";
 static NSString *AFFIRM_SANDBOX_DOMAIN = @"sandbox.affirm.com";
 
-static NSString *AFFIRM_ALA_PRODUCTION_DOMAIN = @"cdn1.affirm.com";
-static NSString *AFFIRM_ALA_SANDBOX_DOMAIN = @"cdn1-sandbox.affirm.com";
+static NSString *AFFIRM_ALA_PRODUCTION_DOMAIN = @"affirm.com";
+static NSString *AFFIRM_ALA_SANDBOX_DOMAIN = @"sandbox.affirm.com";
 
 @interface AffirmConfiguration () <NSCopying>
 
 /// The Affirm domain which hosts the API. Points to the appropriate (production/sandbox) domain depending on the configured environment.
 @property(nonatomic, copy, readonly) NSString *affirmDomain;
+
+/// The URL for prequal
+@property(readonly) NSString *affirmPrequalURL;
 
 /// The URL for creating or viewing a checkout.
 @property(readonly) NSURL *affirmCheckoutURL;
@@ -37,18 +40,10 @@ static NSString *AFFIRM_ALA_SANDBOX_DOMAIN = @"cdn1-sandbox.affirm.com";
 - (NSURL *)affirmURLWithString:(NSString *)path;
 
 /// The URL for loading as low as pricing.
-/// @param apr APR to use in the calculation
-/// @param termLength Number of termLength to use in the calculation
-/// @param amount Amount to use in the calculation
-/// @return URL to use to calculate the monthly payments
-- (NSURL *)affirmAsLowAsURLWithAPR:(NSDecimalNumber *)apr
-                        termLength:(NSDecimalNumber *)termLength
-                            amount:(NSDecimalNumber *)amount;
-
-/// The URL for loading as low as pricing.
 /// @param promoId Promo ID to use in the calculation
+/// @param amount Optional amount to use in calculation
 /// @return URL to use to get the configuration to use to calculate the monthly payments
-- (NSURL *)affirmAsLowAsURLWithPromoId:(NSString *)promoId;
+- (NSURL *)affirmAsLowAsURLWithPromoId:(NSString *)promoId withAmount:(NSDecimalNumber *)amount;
 
 /// Formats string for an environment type
 /// @param environment Dev environment
